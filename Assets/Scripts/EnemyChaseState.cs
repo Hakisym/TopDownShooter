@@ -2,22 +2,21 @@ using UnityEngine;
 
 public class EnemyChaseState : EnemyBaseState
 {
-    public EnemyChaseState(EnemyController enemy) : base(enemy) {
+    EnemyMovement movement;
+    public EnemyChaseState(EnemyMovement movement) {
+        this.movement = movement;
     }
 
     public override void Enter() {
-        enemy.Animator.PlayAnimation(EnemyAnimator.WalkHash);
-    }
-
-    public override void Tick() {
-        var direction = enemy.Target.TargetPosition - enemy.transform.position;
-        direction.y = 0f;
-
-        enemy.Movement.Rotate(direction.normalized);
-        enemy.Movement.Move(direction.normalized);
-    }
-
-    public override void Exit() {
         
     }
+
+    public override void Tick(EnemyRuntimeData data) {
+        var direction = data.DecisionData.DirectionToTarget;
+
+        movement.Rotate(direction);
+        movement.Move(direction);
+    }
+
+    public override void Exit() { }
 }

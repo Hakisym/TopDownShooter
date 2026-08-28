@@ -13,7 +13,7 @@ public class EnemyFSM
         CurrentState.Enter();
     }
 
-    public void Tick() {
-        CurrentState?.Tick();
+    public void Tick(EnemyRuntimeData data) {
+        CurrentState?.Tick(data);
     }
 }

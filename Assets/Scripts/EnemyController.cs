@@ -3,34 +3,22 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] EnemyTarget target;
-    [SerializeField] EnemyMovement movement;
-    [SerializeField] EnemyAttack attack;
+    [SerializeField] EnemyPerception perception;
+    [SerializeField] EnemyBrain brain;
+    [SerializeField] EnemyBehaviour behaviour;
     [SerializeField] EnemyAnimator animator;
-
-    EnemyFSM fsm;
-
-    EnemyChaseState chaseState;
-    EnemyAttackState attackState;
-    EnemyIdleState idleState;
     
-    public EnemyMovement Movement => movement;
-    public EnemyTarget Target => target;
-    public EnemyAnimator Animator => animator;
+    EnemyRuntimeData data;
 
     void Awake() {
-        fsm = new EnemyFSM();
-
-        idleState = new EnemyIdleState(this);
-        chaseState = new EnemyChaseState(this);
-        attackState = new EnemyAttackState(this);
-    }
-
-    void Start() {
-        fsm.ChangeState(idleState);
+        data = new EnemyRuntimeData(transform);
     }
 
     void Update() {
-        fsm.Tick();
+        data = perception.Tick(data);
+        data = brain.Tick(data);
+        
+        behaviour.Tick(data);
+        animator.Tick(data);
     }
 }

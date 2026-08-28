@@ -455,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &781611901
 Transform:
   m_ObjectHideFlags: 0
@@ -584,6 +584,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &849312406 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 5e1170498f1a68a4bb6c553bf32aae46,
+    type: 3}
+  m_PrefabInstance: {fileID: 1129236252}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1127905827
 GameObject:
   m_ObjectHideFlags: 3
@@ -884,18 +890,22 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1445961823}
-  - component: {fileID: 1445961826}
-  - component: {fileID: 1445961825}
-  - component: {fileID: 1445961824}
-  - component: {fileID: 1445961828}
   - component: {fileID: 1445961827}
+  - component: {fileID: 1445961825}
+  - component: {fileID: 1445961826}
+  - component: {fileID: 1445961831}
+  - component: {fileID: 1445961832}
+  - component: {fileID: 1445961824}
+  - component: {fileID: 1445961829}
+  - component: {fileID: 1445961830}
+  - component: {fileID: 1445961828}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1445961823
 Transform:
   m_ObjectHideFlags: 0
@@ -950,8 +960,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9676f0eedd4fb7a85e0fa97567fe72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1445961825}
-  movement: {fileID: 1445961824}
+  perception: {fileID: 1445961825}
+  brain: {fileID: 1445961831}
+  behaviour: {fileID: 1445961832}
+  animator: {fileID: 1445961830}
 --- !u!136 &1445961827
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -979,6 +991,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 60
+--- !u!114 &1445961829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445961822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5e0ad1389d4b6db1bdcb2b1159ea71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackInterval: 0
+  damage: 0
+--- !u!114 &1445961830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445961822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede1d2a73c5b4732add7e96feea8dbf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 849312406}
+--- !u!114 &1445961831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445961822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e36cbdc8caa468d913f7d0cac6f27a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterAttackRange: 1.5
+  exitAttackRange: 1.8
+--- !u!114 &1445961832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445961822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f3e10b7e0e424ea0a5ef501dd2c23f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 1445961824}
+  attack: {fileID: 1445961829}
 --- !u!1 &1505973011
 GameObject:
   m_ObjectHideFlags: 0

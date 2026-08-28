@@ -1,15 +1,9 @@
 public class EnemyIdleState : EnemyBaseState
 {
-    public EnemyIdleState(EnemyController enemy) : base(enemy) {
-    }
-
     public override void Enter() {
-        enemy.Animator.PlayAnimation(EnemyAnimator.IdleHash);
     }
 
-    public override void Tick() {
-    }
+    public override void Tick(EnemyRuntimeData data) { }
 
-    public override void Exit() {
-    }
+    public override void Exit() { }
 }

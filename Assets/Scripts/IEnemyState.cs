@@ -1,6 +1,6 @@
 public interface IEnemyState
 {
     void Enter();
-    void Tick();
     void Exit();
+    void Tick(EnemyRuntimeData data);
 }
