@@ -4,8 +4,11 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] EnemyPerception perception;
-    [SerializeField] EnemyBrain brain;
-    [SerializeField] EnemyBehaviour behaviour;
+    [SerializeField] EnemyIntention intention;
+    [SerializeField] EnemyStateUpdate stateUpdate;
+    [SerializeField] EnemyRequest request;
+    [SerializeField] EnemyArbitration arbitration;
+    [SerializeField] EnemyExecution execution;
     [SerializeField] EnemyAnimator animator;
     
     EnemyRuntimeData data;
@@ -15,10 +18,23 @@ public class EnemyController : MonoBehaviour
     }
 
     void Update() {
-        data = perception.Tick(data);
-        data = brain.Tick(data);
+        perception.Tick(data);
+        intention.Tick(data);
+        stateUpdate.Tick(data);
+        request.Tick(data);
+        arbitration.Tick(data);
         
-        behaviour.Tick(data);
+        execution.Tick(data);
         animator.Tick(data);
+
+        ClearRuntimeData();
+    }
+
+    void ClearRuntimeData() {
+        data.IntentData.WantToAttack = false;
+        data.IntentData.WantToChase = false;
+
+        data.RequestData.RequestChase = false;
+        data.RequestData.RequestAttack = false;
     }
 }

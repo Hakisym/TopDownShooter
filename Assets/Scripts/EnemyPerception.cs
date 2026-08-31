@@ -9,30 +9,28 @@ public class EnemyPerception : MonoBehaviour
         target = newTarget;
     }
 
-    public EnemyRuntimeData Tick(EnemyRuntimeData data) {
-        if (!target)
-            return ClearPerception(data);
+    public void Tick(EnemyRuntimeData data) {
+        if (!target) {
+            ClearPerceptionData(data);
+            return;
+        }
 
         var offset = target.position - data.EnemyTransform.position;
+        offset.y = 0f;
         var direction = offset.sqrMagnitude > 0.001f 
-            ? offset 
+            ? offset.normalized
             : Vector3.zero;
-        direction.y = 0f;
         
-        data.DecisionData.CurrentTarget = target;
-        data.DecisionData.TargetPosition = target.position;
-        data.DecisionData.DistanceToTarget = offset.magnitude;
-        data.DecisionData.DirectionToTarget = direction.normalized;
-        
-        return data;
+        data.PerceptionData.CurrentTarget = target;
+        data.PerceptionData.TargetPosition = target.position;
+        data.PerceptionData.DistanceToTarget = offset.magnitude;
+        data.PerceptionData.DirectionToTarget = direction;
     }
 
-    EnemyRuntimeData ClearPerception(EnemyRuntimeData data) {
-        data.DecisionData.CurrentTarget = null;
-        data.DecisionData.TargetPosition = Vector3.zero;
-        data.DecisionData.DistanceToTarget = float.PositiveInfinity;
-        data.DecisionData.DirectionToTarget = Vector3.zero;
-        
-        return data;
+    void ClearPerceptionData(EnemyRuntimeData data) {
+        data.PerceptionData.CurrentTarget = null;
+        data.PerceptionData.TargetPosition = Vector3.zero;
+        data.PerceptionData.DistanceToTarget = float.PositiveInfinity;
+        data.PerceptionData.DirectionToTarget = Vector3.zero;
     }
 }

@@ -7,16 +7,16 @@ public class EnemyChaseState : EnemyBaseState
         this.movement = movement;
     }
 
-    public override void Enter() {
+    public override void Enter(EnemyRuntimeData data) {
         
     }
 
     public override void Tick(EnemyRuntimeData data) {
-        var direction = data.DecisionData.DirectionToTarget;
+        var direction = data.PerceptionData.DirectionToTarget;
 
         movement.Rotate(direction);
         movement.Move(direction);
     }
 
-    public override void Exit() { }
+    public override void Exit(EnemyRuntimeData data) { }
 }

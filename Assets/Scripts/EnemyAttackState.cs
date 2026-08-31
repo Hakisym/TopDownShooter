@@ -5,15 +5,15 @@ public class EnemyAttackState : EnemyBaseState
         this.attack = attack;
     }
 
-    public override void Enter() {
-        
+    public override void Enter(EnemyRuntimeData data) {
+        attack.Begin(data);
     }
 
     public override void Tick(EnemyRuntimeData data) {
-        attack.TryAttack();
+        attack.Tick(data);
     }
     
-    public override void Exit() {
-        
+    public override void Exit(EnemyRuntimeData data) {
+        attack.Finish(data);
     }
 }
