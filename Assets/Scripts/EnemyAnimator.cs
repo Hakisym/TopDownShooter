@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class EnemyAnimator : MonoBehaviour
@@ -21,20 +20,14 @@ public class EnemyAnimator : MonoBehaviour
     }
 
     public void Tick(EnemyRuntimeData data) {
-        if (data.State == EnemyState.Attack)
-            return;
+        if (!data.MovementData.IsMoving
+            && data.ActionData.CurrentAction == EnemyAction.None) {
+            PlayLoopedAnimation(IdleHash);
+        }
         
-        var targetAnimation = GetTargetAnimation(data.State);
-
-        PlayLoopedAnimation(targetAnimation);
-    }
-
-    int GetTargetAnimation(EnemyState state) {
-        return state switch {
-            EnemyState.Idle => IdleHash,
-            EnemyState.Chase => WalkHash,
-            _ => IdleHash
-        };
+        if (data.MovementData.IsMoving) {
+            PlayLoopedAnimation(WalkHash);
+        }
     }
 
     void PlayLoopedAnimation(int animationHash) {

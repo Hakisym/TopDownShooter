@@ -5,14 +5,27 @@ using UnityEngine;
 public class EnemyRuntimeData
 {
     public readonly Transform EnemyTransform;
+    
+    // Refreshed or generated during the current frame
     public EnemyPerceptionData PerceptionData;
     public EnemyIntentData IntentData;
-    public EnemyRequestData RequestData;
-    public EnemyState State;
+    public EnemyDecisionResultData DecisionResult;
+    public EnemyCommandData CommandData;
+    public EnemyResultData ResultData;
+    
+    // Long-lived facts owned by their domain systems
     public EnemyActionData ActionData;
+    public EnemyMovementData MovementData;
 
     public EnemyRuntimeData(Transform enemyTransform) {
         EnemyTransform = enemyTransform;
+    }
+
+    public void CleanFrame() {
+        IntentData = default;
+        DecisionResult = default;
+        CommandData = default;
+        ResultData = default;
     }
 }
 
@@ -30,16 +43,20 @@ public struct EnemyPerceptionData
 [Serializable]
 public struct EnemyIntentData
 {
-    public bool HasIntent => WantToAttack || WantToChase;
-    public bool WantToAttack;
-    public bool WantToChase;
+    public EnemyBehaviourType DesiredBehaviour;
 }
 
 [Serializable]
-public struct EnemyRequestData
+public struct EnemyDecisionResultData
 {
-    public bool RequestChase;
-    public bool RequestAttack;
+    public EnemyBehaviourType ApprovedBehaviour;
+}
+
+[Serializable]
+public struct EnemyCommandData
+{
+    public bool BeginAttack;
+    public Vector3 MoveDirection;
 }
 
 [Serializable]
@@ -49,10 +66,29 @@ public struct EnemyActionData
     public AttackPhase AttackPhase;
 }
 
-public enum EnemyState{
-    Idle,
+[Serializable]
+public struct EnemyMovementData
+{
+    public bool IsMoving;
+}
+
+public struct EnemyResultData
+{
+    public bool EnemyAttackFinished;
+}
+
+public enum EnemyBehaviourType
+{
+    None,
     Chase,
-    Attack,
+    Attack
+}
+
+public enum EnemyArbitrationResult
+{
+    Pending,
+    Approved,
+    RejectedByActionLock
 }
 
 public enum EnemyAction

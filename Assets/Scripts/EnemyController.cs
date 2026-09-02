@@ -1,40 +1,40 @@
-using System;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] EnemyDecisionData decisionData;
     [SerializeField] EnemyPerception perception;
-    [SerializeField] EnemyIntention intention;
-    [SerializeField] EnemyStateUpdate stateUpdate;
-    [SerializeField] EnemyRequest request;
-    [SerializeField] EnemyArbitration arbitration;
-    [SerializeField] EnemyExecution execution;
+    [SerializeField] EnemyAttack attack;
+    [SerializeField] EnemyMovement movement;
     [SerializeField] EnemyAnimator animator;
     
     EnemyRuntimeData data;
+    EnemyIntention intention;
+    EnemyArbitration arbitration;
+    EnemyExecution execution;
 
     void Awake() {
         data = new EnemyRuntimeData(transform);
+        intention = new EnemyIntention(decisionData);
+        arbitration = new EnemyArbitration();
+        execution = new EnemyExecution();
     }
 
     void Update() {
+        // One-frame decision pipeline
         perception.Tick(data);
         intention.Tick(data);
-        stateUpdate.Tick(data);
-        request.Tick(data);
         arbitration.Tick(data);
-        
         execution.Tick(data);
+        
+        // Domain systems consume commands and publish actual facts
+        attack.Tick(data);
+        movement.Tick(data);
         animator.Tick(data);
 
-        ClearRuntimeData();
-    }
-
-    void ClearRuntimeData() {
-        data.IntentData.WantToAttack = false;
-        data.IntentData.WantToChase = false;
-
-        data.RequestData.RequestChase = false;
-        data.RequestData.RequestAttack = false;
+        // Commands, requests and results must not leak to next frame
+        data.CleanFrame();
+        
+        Debug.Log(data.ActionData.CurrentAction);
     }
 }

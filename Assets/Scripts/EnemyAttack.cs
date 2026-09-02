@@ -4,17 +4,21 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public event Action OnBeginAttack;
-    [SerializeField] EnemyAttackData data;
+    [SerializeField] EnemyAttackData attackData;
     float elapsedTime;
+    
+    public void Tick(EnemyRuntimeData runtimeData) {
+        if (runtimeData.CommandData.BeginAttack)
+            Begin(runtimeData);
 
-    bool hitTriggered;
-    bool recoveryTriggered;
-
-    public void Begin(EnemyRuntimeData runtimeData) {
+        if (runtimeData.ActionData.CurrentAction != EnemyAction.Attack) 
+            return;
+        
+        UpdateAttack(runtimeData);
+    }
+    
+    void Begin(EnemyRuntimeData runtimeData) {
         elapsedTime = 0f;
-
-        hitTriggered = false;
-        recoveryTriggered = false;
         
         runtimeData.ActionData.CurrentAction = EnemyAction.Attack;
         runtimeData.ActionData.AttackPhase = AttackPhase.Startup;
@@ -22,24 +26,22 @@ public class EnemyAttack : MonoBehaviour
         OnBeginAttack?.Invoke();
     }
 
-    public void Tick(EnemyRuntimeData runtimeData) {
+    void UpdateAttack(EnemyRuntimeData runtimeData) {
         elapsedTime += Time.deltaTime;
 
-        if (!hitTriggered && elapsedTime >= data.hitTime) {
-            hitTriggered = true;
-
-            Hit(runtimeData);
-
+        if (runtimeData.ActionData.AttackPhase == AttackPhase.Startup && 
+            elapsedTime >= attackData.hitTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Active;
+            
+            Hit(runtimeData);
         }
         
-        if (!recoveryTriggered && elapsedTime >= data.recoveryTime) {
-            recoveryTriggered = true;
-            
+        if (runtimeData.ActionData.AttackPhase == AttackPhase.Active && 
+            elapsedTime >= attackData.recoveryTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Recovery;
         }
 
-        if (elapsedTime >= data.duration) {
+        if (elapsedTime >= attackData.duration) {
             Finish(runtimeData);
         }
     }
@@ -49,8 +51,10 @@ public class EnemyAttack : MonoBehaviour
         // damage
     }
 
-    public void Finish(EnemyRuntimeData runtimeData) {
+    void Finish(EnemyRuntimeData runtimeData) {
         runtimeData.ActionData.CurrentAction = EnemyAction.None;
         runtimeData.ActionData.AttackPhase = AttackPhase.None;
+        
+        runtimeData.ResultData.EnemyAttackFinished = true;
     }
 }

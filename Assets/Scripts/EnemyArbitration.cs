@@ -1,28 +1,20 @@
-using UnityEngine;
-
-public class EnemyArbitration : MonoBehaviour
+public class EnemyArbitration
 {
     public void Tick(EnemyRuntimeData data) {
-        if (data.RequestData.RequestAttack && !CanAttack(data)) {
-            data.RequestData.RequestAttack = false;
+        var desired = data.IntentData.DesiredBehaviour;
+        
+        if (desired == EnemyBehaviourType.None) {
+            data.DecisionResult.ApprovedBehaviour = 
+                EnemyBehaviourType.None;
+            return;
         }
 
-        if (data.RequestData.RequestChase && !CanChase(data)) {
-            data.RequestData.RequestChase = false;
+        if (data.ActionData.CurrentAction != EnemyAction.None) {
+            data.DecisionResult.ApprovedBehaviour =
+                EnemyBehaviourType.None;
+            return;
         }
-    }
 
-    bool CanChase(EnemyRuntimeData data) {
-        if (data.State == EnemyState.Attack)
-            return false;
-
-        return true;
-    }
-
-    bool CanAttack(EnemyRuntimeData data) {
-        if (data.State == EnemyState.Chase)
-            return true;
-
-        return true;
+        data.DecisionResult.ApprovedBehaviour = desired;
     }
 }

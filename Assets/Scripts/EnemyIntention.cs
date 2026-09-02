@@ -1,22 +1,22 @@
-using UnityEngine;
-
-public class EnemyIntention : MonoBehaviour
+public class EnemyIntention
 {
-    [SerializeField] EnemyDecisionData decisionData;
+    EnemyDecisionData decisionData;
 
-    public void Tick(EnemyRuntimeData data) {
-        UpdateIntent(data);
+    public EnemyIntention(EnemyDecisionData decisionData) {
+        this.decisionData = decisionData;
     }
 
-    void UpdateIntent(EnemyRuntimeData data) {
-        if (!data.PerceptionData.CurrentTarget)
+    public void Tick(EnemyRuntimeData data) {
+        if (!data.PerceptionData.CurrentTarget) {
+            data.IntentData.DesiredBehaviour = EnemyBehaviourType.None;
             return;
+        }
         
         var distance = data.PerceptionData.DistanceToTarget;
 
         if (distance <= decisionData.attackRange)
-            data.IntentData.WantToAttack = true;
+            data.IntentData.DesiredBehaviour = EnemyBehaviourType.Attack;
         else
-            data.IntentData.WantToChase = true;
+            data.IntentData.DesiredBehaviour = EnemyBehaviourType.Chase;
     }
 }
