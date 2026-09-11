@@ -933,6 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+  rotationSpeed: 180
 --- !u!114 &1445961825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,7 +959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e9676f0eedd4fb7a85e0fa97567fe72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decisionData: {fileID: 11400000, guid: cd396ca4978f1dc47a5c930c0c166212, type: 2}
+  enemyData: {fileID: 11400000, guid: cd396ca4978f1dc47a5c930c0c166212, type: 2}
   perception: {fileID: 1445961825}
   attack: {fileID: 1445961834}
   movement: {fileID: 1445961824}
@@ -1016,7 +1017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec5e0ad1389d4b6db1bdcb2b1159ea71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackData: {fileID: 11400000, guid: 674c148743fb8ae479967700312f2868, type: 2}
+  enemyData: {fileID: 11400000, guid: cd396ca4978f1dc47a5c930c0c166212, type: 2}
 --- !u!1 &1505973011
 GameObject:
   m_ObjectHideFlags: 0

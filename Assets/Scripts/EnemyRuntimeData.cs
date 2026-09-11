@@ -57,6 +57,7 @@ public struct EnemyCommandData
 {
     public bool BeginAttack;
     public Vector3 MoveDirection;
+    public Vector3 FaceDirection;
 }
 
 [Serializable]
@@ -64,14 +65,18 @@ public struct EnemyActionData
 {
     public EnemyAction CurrentAction;
     public AttackPhase AttackPhase;
+
+    public bool CanRotate;
 }
 
 [Serializable]
 public struct EnemyMovementData
 {
     public bool IsMoving;
+    public bool IsRotating;
 }
 
+[Serializable]
 public struct EnemyResultData
 {
     public bool EnemyAttackFinished;
@@ -81,14 +86,8 @@ public enum EnemyBehaviourType
 {
     None,
     Chase,
+    TurnToTarget,
     Attack
-}
-
-public enum EnemyArbitrationResult
-{
-    Pending,
-    Approved,
-    RejectedByActionLock
 }
 
 public enum EnemyAction

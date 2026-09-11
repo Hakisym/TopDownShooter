@@ -9,7 +9,8 @@ public class EnemyArbitration
             return;
         }
 
-        if (data.ActionData.CurrentAction != EnemyAction.None) {
+        // If enemy is attacking, disapprove chase and attack intentions
+        if (data.ActionData.CurrentAction == EnemyAction.Attack) {
             data.DecisionResult.ApprovedBehaviour =
                 EnemyBehaviourType.None;
             return;

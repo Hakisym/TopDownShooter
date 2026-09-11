@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] EnemyDecisionData decisionData;
+    [SerializeField] EnemyData enemyData;
     [SerializeField] EnemyPerception perception;
     [SerializeField] EnemyAttack attack;
     [SerializeField] EnemyMovement movement;
@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
 
     void Awake() {
         data = new EnemyRuntimeData(transform);
-        intention = new EnemyIntention(decisionData);
+        intention = new EnemyIntention(enemyData);
         arbitration = new EnemyArbitration();
         execution = new EnemyExecution();
     }

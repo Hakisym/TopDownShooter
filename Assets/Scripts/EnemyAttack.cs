@@ -4,20 +4,23 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public event Action OnBeginAttack;
-    [SerializeField] EnemyAttackData attackData;
+    [SerializeField] EnemyData enemyData;
     float elapsedTime;
     
     public void Tick(EnemyRuntimeData runtimeData) {
         if (runtimeData.CommandData.BeginAttack)
             Begin(runtimeData);
 
-        if (runtimeData.ActionData.CurrentAction != EnemyAction.Attack) 
+        if (runtimeData.ActionData.CurrentAction == EnemyAction.None) 
             return;
         
         UpdateAttack(runtimeData);
     }
     
     void Begin(EnemyRuntimeData runtimeData) {
+        if (runtimeData.ActionData.CurrentAction == EnemyAction.Attack)
+            return;
+        
         elapsedTime = 0f;
         
         runtimeData.ActionData.CurrentAction = EnemyAction.Attack;
@@ -29,19 +32,22 @@ public class EnemyAttack : MonoBehaviour
     void UpdateAttack(EnemyRuntimeData runtimeData) {
         elapsedTime += Time.deltaTime;
 
+        runtimeData.ActionData.CanRotate = true;
+        
         if (runtimeData.ActionData.AttackPhase == AttackPhase.Startup && 
-            elapsedTime >= attackData.hitTime) {
+            elapsedTime >= enemyData.hitTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Active;
             
             Hit(runtimeData);
+            return;
         }
         
         if (runtimeData.ActionData.AttackPhase == AttackPhase.Active && 
-            elapsedTime >= attackData.recoveryTime) {
+            elapsedTime >= enemyData.recoveryTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Recovery;
         }
 
-        if (elapsedTime >= attackData.duration) {
+        if (elapsedTime >= enemyData.duration) {
             Finish(runtimeData);
         }
     }
@@ -56,5 +62,7 @@ public class EnemyAttack : MonoBehaviour
         runtimeData.ActionData.AttackPhase = AttackPhase.None;
         
         runtimeData.ResultData.EnemyAttackFinished = true;
+        
+        runtimeData.ActionData.CanRotate = false;
     }
 }
