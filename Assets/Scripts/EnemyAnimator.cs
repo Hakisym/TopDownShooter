@@ -20,12 +20,17 @@ public class EnemyAnimator : MonoBehaviour
     }
 
     public void Tick(EnemyRuntimeData data) {
+        if (data.ActionData.CurrentAction == EnemyAction.Attack)
+            return;
+
+        // Skip attack end frame
+        if (data.ResultData.EnemyAttackFinished)
+            return;
+        
         if (data.MovementData.IsMoving) {
             PlayLoopedAnimation(WalkHash);
         }
-        // Enemy is not moving or attacking, or just finished attack
-        else if (data.ActionData.CurrentAction != EnemyAction.Attack 
-                 && !data.ResultData.EnemyAttackFinished) {
+        else {
             PlayLoopedAnimation(IdleHash);
         }
     }

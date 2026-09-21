@@ -16,8 +16,8 @@ public class PlayerAim : MonoBehaviour
             playerCamera = Camera.main;
     }
 
-    public void Tick(Vector2 mousePos, bool weaponEquipped) {
-        AimDirection = GetAimDirection(mousePos, weaponEquipped);
+    public void Tick(PlayerRuntimeContext ctx) {
+        AimDirection = GetAimDirection(ctx.InputContext.MousePosition, ctx.WeaponContext.weaponEquipped);
         
         Aim(AimDirection);
     }
@@ -46,7 +46,7 @@ public class PlayerAim : MonoBehaviour
         var toAim = aimPoint - transform.position;
         toAim.y = 0f;
 
-        float distance = toAim.magnitude;
+        var distance = toAim.magnitude;
 
         if (distance < 0.001f)
             return Vector3.zero;
@@ -60,14 +60,14 @@ public class PlayerAim : MonoBehaviour
             weaponSocket.position
         );
 
-        float lateralOffset = localSocketPos.x;
+        var lateralOffset = localSocketPos.x;
 
         // 已经近到没有几何解了
         if (distance <= Mathf.Abs(lateralOffset))
             return Vector3.zero;
 
         // 获取player需要偏移的角度，使weapon与aimpoint相交
-        float offsetAngle = Mathf.Asin(
+        var offsetAngle = Mathf.Asin(
             lateralOffset / distance
         ) * Mathf.Rad2Deg;
 

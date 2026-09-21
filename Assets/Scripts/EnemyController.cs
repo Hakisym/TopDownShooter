@@ -34,7 +34,5 @@ public class EnemyController : MonoBehaviour
 
         // Commands, requests and results must not leak to next frame
         data.CleanFrame();
-        
-        Debug.Log(data.ActionData.CurrentAction);
     }
 }

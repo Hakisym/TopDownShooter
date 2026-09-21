@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -5,9 +6,12 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] PlayerInputReader playerInput;
     [SerializeField] WeaponSystem weaponSystem;
 
-    public bool WeaponEquipped => weaponSystem.HasWeapon;
-
     void OnEnable() {
+        playerInput.Reload += Reload;
+        playerInput.SelectWeapon += SwitchWeapon;
+    }
+
+    void OnDisable() {
         playerInput.Reload += Reload;
         playerInput.SelectWeapon += SwitchWeapon;
     }
@@ -16,8 +20,10 @@ public class PlayerCombat : MonoBehaviour
         weaponSystem.SwitchWeapon(index);
     }
 
-    public void Tick(bool attackHeld) {
-        weaponSystem.Fire(attackHeld);
+    public void Tick(PlayerRuntimeContext ctx) {
+        ctx.WeaponContext.weaponEquipped = weaponSystem.HasWeapon;
+        
+        weaponSystem.Fire(ctx.InputContext.attackHeld);
     }
 
     void Reload() {

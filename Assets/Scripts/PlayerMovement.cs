@@ -41,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
         return newVelocity;
     }
 
-    public void Tick(Vector2 moveInput) {
-        var moveDirection = GetMoveDirection(moveInput);
+    public void Tick(PlayerRuntimeContext ctx) {
+        var moveDirection = GetMoveDirection(ctx.InputContext.MoveInput);
         
         velocity = CalculateHorizontalVelocity(moveDirection, velocity);
         

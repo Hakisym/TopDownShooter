@@ -15,7 +15,7 @@ public class EnemyIntention
         }
 
         var inAttackRange =
-            data.PerceptionData.DistanceToTarget <= enemyData.enterAttackRange;
+            data.PerceptionData.DistanceToTarget <= enemyData.decision.enterAttackRange;
         
         var angleToTarget = Vector3.Angle(
             data.EnemyTransform.forward,
@@ -23,7 +23,7 @@ public class EnemyIntention
         );
         
         var facingTarget =
-            angleToTarget <= enemyData.attackFacingAngle;
+            angleToTarget <= enemyData.decision.attackFacingAngle;
 
         // Enemy wants to keep chasing the target until in attack range
         data.IntentData.DesiredBehaviour = inAttackRange && facingTarget

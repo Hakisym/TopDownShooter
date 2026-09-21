@@ -35,7 +35,7 @@ public class EnemyAttack : MonoBehaviour
         runtimeData.ActionData.CanRotate = true;
         
         if (runtimeData.ActionData.AttackPhase == AttackPhase.Startup && 
-            elapsedTime >= enemyData.hitTime) {
+            elapsedTime >= enemyData.attack.hitTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Active;
             
             Hit(runtimeData);
@@ -43,18 +43,38 @@ public class EnemyAttack : MonoBehaviour
         }
         
         if (runtimeData.ActionData.AttackPhase == AttackPhase.Active && 
-            elapsedTime >= enemyData.recoveryTime) {
+            elapsedTime >= enemyData.attack.recoveryTime) {
             runtimeData.ActionData.AttackPhase = AttackPhase.Recovery;
         }
 
-        if (elapsedTime >= enemyData.duration) {
+        if (elapsedTime >= enemyData.attack.duration) {
             Finish(runtimeData);
         }
     }
 
     void Hit(EnemyRuntimeData runtimeData) {
-        // hit detection
-        // damage
+        var perception = runtimeData.PerceptionData;
+        var target = perception.CurrentTarget;
+
+        if (!target)
+            return;
+
+        // 攻击前摇期间玩家可能已经跑远
+        if (perception.DistanceToTarget > enemyData.attack.range)
+            return;
+
+        // attackData.angle表示整个扇形角度
+        var angleToTarget = Vector3.Angle(
+            transform.forward,
+            perception.DirectionToTarget
+        );
+
+        if (angleToTarget > enemyData.attack.angle)
+            return;
+
+        var damageable = target.GetComponentInParent<IDamageable>();
+
+        damageable?.TakeDamage(enemyData.attack.damage);
     }
 
     void Finish(EnemyRuntimeData runtimeData) {

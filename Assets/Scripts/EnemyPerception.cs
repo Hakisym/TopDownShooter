@@ -1,21 +1,37 @@
+using System;
 using UnityEngine;
 
 public class EnemyPerception : MonoBehaviour
 {
-    [SerializeField] Transform target;
+    [SerializeField] Transform debugTarget;
+    Transform target;
+    PlayerHealth targetHealth;
+
+    void Awake() {
+        SetTarget(debugTarget);
+    }
 
     public void SetTarget(Transform newTarget) {
         target = newTarget;
+
+        targetHealth = target
+            ? target.GetComponent<PlayerHealth>()
+            : null;
     }
 
     public void Tick(EnemyRuntimeData data) {
-        if (!target) {
-            ClearPerceptionData(data);
+        if (!target || 
+            targetHealth == null || 
+            targetHealth.IsDead) {
+            ClearTarget(data);
             return;
         }
 
-        var offset = target.position - data.EnemyTransform.position;
+        var offset =
+            target.position - data.EnemyTransform.position;
+        
         offset.y = 0f;
+        
         var direction = offset.sqrMagnitude > 0.001f 
             ? offset.normalized
             : Vector3.zero;
@@ -26,7 +42,10 @@ public class EnemyPerception : MonoBehaviour
         data.PerceptionData.DirectionToTarget = direction;
     }
 
-    void ClearPerceptionData(EnemyRuntimeData data) {
+    void ClearTarget(EnemyRuntimeData data) {
+        target = null;
+        targetHealth = null;
+        
         data.PerceptionData.CurrentTarget = null;
         data.PerceptionData.TargetPosition = Vector3.zero;
         data.PerceptionData.DistanceToTarget = float.PositiveInfinity;

@@ -7,17 +7,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerAim playerAim;
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] PlayerCombat playerCombat;
+    [SerializeField] PlayerHealth playerHealth;
+
+    PlayerRuntimeContext ctx;
+
+    void Awake() {
+        ctx = new PlayerRuntimeContext();
+    }
 
     void Update() {
-        var moveInput = playerInput.MoveInput;
-        var mousePos = playerInput.MousePosition;
-        var attackHeld = playerInput.AttackHeld;
-        var hasWeapon = playerCombat.WeaponEquipped;
+        UpdateInputContext();
 
-        playerAim.Tick(mousePos, hasWeapon);
+        playerAim.Tick(ctx);
         
-        playerMovement.Tick(moveInput);
+        playerMovement.Tick(ctx);
 
-        playerCombat.Tick(attackHeld);
+        playerCombat.Tick(ctx);
+        
+        ctx.ClearFrame();
+    }
+
+    void UpdateInputContext() {
+        ctx.InputContext.MoveInput = playerInput.MoveInput;
+        ctx.InputContext.MousePosition = playerInput.MousePosition;
+        ctx.InputContext.attackHeld = playerInput.AttackHeld;
     }
 }

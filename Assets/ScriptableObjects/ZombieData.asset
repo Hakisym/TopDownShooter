@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57f6446d1b414398ab89e5738e4f738e, type: 3}
   m_Name: ZombieData
   m_EditorClassIdentifier: 
-  enterAttackRange: 1.8
-  attackFacingAngle: 45
-  duration: 1.1
-  hitTime: 0.3
-  recoveryTime: 0.3
-  damage: 10
-  range: 1.8
-  angle: 60
+  decision:
+    enterAttackRange: 1.8
+    attackFacingAngle: 45
+  attack:
+    duration: 1.1
+    hitTime: 0.3
+    recoveryTime: 0.3
+    damage: 10
+    range: 1.8
+    angle: 45
