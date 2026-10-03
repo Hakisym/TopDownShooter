@@ -2074,9 +2074,9 @@ GameObject:
   - component: {fileID: 1445961826}
   - component: {fileID: 1445961834}
   - component: {fileID: 1445961824}
-  - component: {fileID: 1445961830}
   - component: {fileID: 1445961828}
   - component: {fileID: 1445961835}
+  - component: {fileID: 1445961836}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -2143,7 +2143,7 @@ MonoBehaviour:
   perception: {fileID: 1445961825}
   attack: {fileID: 1445961834}
   movement: {fileID: 1445961824}
-  animator: {fileID: 1445961830}
+  animator: {fileID: 2069325650}
 --- !u!136 &1445961827
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2171,20 +2171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 60
---- !u!114 &1445961830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1445961822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ede1d2a73c5b4732add7e96feea8dbf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 849312406}
-  enemyAttack: {fileID: 1445961834}
 --- !u!114 &1445961834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,6 +2198,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bloodEffect: {fileID: 3867274516860620634, guid: f713abc0ea653a74f944c7631dec54df,
     type: 3}
+--- !u!114 &1445961836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1445961822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f67a77b2da47588e90c2594bae2a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyHealth: {fileID: 1445961828}
 --- !u!1 &1505973011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,6 +2510,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 331d80543bc1448fbd87882d83ccace7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2069325649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100030, guid: 5e1170498f1a68a4bb6c553bf32aae46,
+    type: 3}
+  m_PrefabInstance: {fileID: 1129236252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2069325650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069325649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede1d2a73c5b4732add7e96feea8dbf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 849312406}
+  enemyAttack: {fileID: 1445961834}
+  enemyHealth: {fileID: 1445961828}
 --- !u!1001 &176578908240742806
 PrefabInstance:
   m_ObjectHideFlags: 0

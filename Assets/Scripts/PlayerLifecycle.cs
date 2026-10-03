@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerDeathHandler : MonoBehaviour
+public class PlayerLifecycle : MonoBehaviour
 {
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] Transform playerVisual;

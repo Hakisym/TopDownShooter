@@ -4,21 +4,26 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] float maxHealth;
+    public event Action OnEnemyDied;
 
-    float currentHealth;
+    public float CurrentHealth { get; private set; }
+    public float MaxHealth => maxHealth;
+    
+    public bool IsDead { get; private set; }
 
     void Awake() {
-        currentHealth = maxHealth;
+        CurrentHealth = maxHealth;
     }
 
     public void TakeDamage(float damage) {
-        currentHealth -= damage;
+        CurrentHealth = Mathf.Max(0f, CurrentHealth - damage);
 
-        if (currentHealth <= 0)
+        if (CurrentHealth <= 0)
             Die();
     }
 
     void Die() {
-        Debug.Log("dead");
+        IsDead = true;
+        OnEnemyDied?.Invoke();
     }
 }
