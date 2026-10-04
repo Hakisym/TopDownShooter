@@ -5,12 +5,13 @@ public class PlayerVisualEffect : MonoBehaviour
 {
     [SerializeField] PlayerHealth playerHealth;
     [SerializeField] GameObject deathEffect;
+    [SerializeField] Transform effectSpawnPoint;
 
     void Start() {
         playerHealth.OnPlayerDied += SpawnDeathParticles;
     }
 
     void SpawnDeathParticles() {
-        Instantiate(deathEffect, transform.position, Quaternion.identity);
+        Instantiate(deathEffect, effectSpawnPoint.position, Quaternion.identity);
     }
 }
