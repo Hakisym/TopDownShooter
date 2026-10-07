@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyLifecycle : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class EnemyLifecycle : MonoBehaviour
 
     void HandlePlayerDeath() {
         GetComponent<Collider>().enabled = false;
+        GetComponent<NavMeshAgent>().enabled = false;
         
         foreach (var script in GetComponents<MonoBehaviour>()) {
             if (script == this) continue;

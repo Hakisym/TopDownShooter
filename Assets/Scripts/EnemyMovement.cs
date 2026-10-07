@@ -1,38 +1,44 @@
+using System;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 2f;
     [SerializeField] float rotationSpeed = 180f;
 
-    public void Tick(EnemyRuntimeData data) {
-        var moveDirection = data.CommandData.MoveDirection;
-        var faceDirection = data.CommandData.FaceDirection;
+    NavMeshAgent agent;
 
-        if (data.ActionData.CurrentAction == EnemyAction.Attack) {
-            faceDirection = data.ActionData.CanRotate
-                ? data.PerceptionData.DirectionToTarget
-                : Vector3.zero;
-        }
-        
-        data.MovementData.IsMoving = 
-            moveDirection.sqrMagnitude > 0.001f;
-
-        data.MovementData.IsRotating =
-            faceDirection.sqrMagnitude > 0.001f;
-
-        if (data.MovementData.IsRotating)
-            Rotate(faceDirection);
-        
-        if (data.MovementData.IsMoving)
-            Move(moveDirection);
+    void Awake() {
+        agent = GetComponent<NavMeshAgent>();
     }
 
-    void Move(Vector3 direction) {
-        transform.position += direction * (moveSpeed * Time.deltaTime);
+    public void Tick(EnemyRuntimeData data) {
+        data.MovementData.IsRotating = 
+            data.ActionData is { CurrentAction: EnemyAction.Attack, CanRotate: true } 
+            || data.CommandData.BeginRotate;
+        
+        data.MovementData.IsMoving = 
+            data.CommandData.BeginMove;
+        
+        if (data.MovementData.IsRotating)
+            Rotate(data.PerceptionData.DirectionToTarget);
+
+        if (data.MovementData.IsMoving) {
+            agent.isStopped = false;
+            agent.SetDestination(data.PerceptionData.TargetPosition);
+            agent.avoidancePriority = 50;
+        }
+        else {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            agent.avoidancePriority = 10;
+        }
     }
 
     void Rotate(Vector3 direction) {
+        if (direction == Vector3.zero) return;
+        
         var targetRotation = Quaternion.LookRotation(direction);
         
         transform.rotation = Quaternion.RotateTowards(
