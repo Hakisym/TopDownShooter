@@ -4,7 +4,6 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 2f;
     [SerializeField] float rotationSpeed = 180f;
 
     NavMeshAgent agent;
@@ -16,17 +15,17 @@ public class EnemyMovement : MonoBehaviour
     public void Tick(EnemyRuntimeData data) {
         data.MovementData.IsRotating = 
             data.ActionData is { CurrentAction: EnemyAction.Attack, CanRotate: true } 
-            || data.CommandData.BeginRotate;
+            || data.CommandData.ShouldRotate;
         
         data.MovementData.IsMoving = 
-            data.CommandData.BeginMove;
+            data.CommandData.ShouldMove;
         
         if (data.MovementData.IsRotating)
-            Rotate(data.PerceptionData.DirectionToTarget);
+            Rotate(data.CommandData.FaceDirection);
 
         if (data.MovementData.IsMoving) {
             agent.isStopped = false;
-            agent.SetDestination(data.PerceptionData.TargetPosition);
+            agent.SetDestination(data.CommandData.MoveDestination);
             agent.avoidancePriority = 50;
         }
         else {

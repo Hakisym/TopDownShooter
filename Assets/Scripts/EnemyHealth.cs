@@ -16,6 +16,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     }
 
     public void TakeDamage(float damage) {
+        if (IsDead) return;
+        
         CurrentHealth = Mathf.Max(0f, CurrentHealth - damage);
 
         if (CurrentHealth <= 0)

@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8ece1d68df4b008bd2227a20789c81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
   rotationSpeed: 180
 --- !u!114 &4489745410091064368
 MonoBehaviour:
@@ -191,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f67a77b2da47588e90c2594bae2a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyController: {fileID: 4489745410091064374}
   enemyHealth: {fileID: 4489745410091064368}
 --- !u!136 &1214920864319466666
 CapsuleCollider:

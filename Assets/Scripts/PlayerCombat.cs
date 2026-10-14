@@ -12,8 +12,8 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void OnDisable() {
-        playerInput.Reload += Reload;
-        playerInput.SelectWeapon += SwitchWeapon;
+        playerInput.Reload -= Reload;
+        playerInput.SelectWeapon -= SwitchWeapon;
     }
 
     void SwitchWeapon(int index) {

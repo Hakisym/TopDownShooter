@@ -56,8 +56,12 @@ public struct EnemyDecisionResultData
 public struct EnemyCommandData
 {
     public bool BeginAttack;
-    public bool BeginMove;
-    public bool BeginRotate;
+    
+    public bool ShouldMove;
+    public Vector3 MoveDestination;
+    
+    public bool ShouldRotate;
+    public Vector3 FaceDirection;
 }
 
 [Serializable]

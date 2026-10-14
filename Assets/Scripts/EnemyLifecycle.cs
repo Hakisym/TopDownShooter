@@ -5,10 +5,18 @@ using UnityEngine.AI;
 
 public class EnemyLifecycle : MonoBehaviour
 {
+    [SerializeField] EnemyController enemyController;
     [SerializeField] EnemyHealth enemyHealth;
+    
+    EnemyRegistry registry;
     
     void Start() {
         enemyHealth.OnEnemyDied += HandlePlayerDeath;
+    }
+
+    public void Initialize(EnemyRegistry registry) {
+        this.registry = registry;
+        registry.RegisterEnemy(enemyController);
     }
 
     void HandlePlayerDeath() {
@@ -19,6 +27,8 @@ public class EnemyLifecycle : MonoBehaviour
             if (script == this) continue;
             script.enabled = false;
         }
+
+        registry.UnregisterEnemy(enemyController);
 
         StartCoroutine(DeathCoroutine());
     }
